@@ -11,6 +11,20 @@ python3 prolin-xcb-client/client.py ACM0 push libpaxgbc-noaudio.so /data/app/MAI
 python3 prolin-xcb-client/client.py ACM0 push rom.gbc /data/app/MAINAPP/lib/rom.gbc
 ```
 
+## Keys
+
+|PAX S920 Key|GBC Key|
+|------------|-------|
+|ALPHA       |START  |
+|FUNC        |SELECT |
+|9           |B      |
+|3           |A      |
+|8           |DOWN   |
+|2           |UP     |
+|4           |LEFT   |
+|6           |RIGHT  |
+|ESC         |QUIT   |
+
 # GBC
 
 A simple GameBoy and GameBoy Color emulator written in C.
