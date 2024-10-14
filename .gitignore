@@ -3,3 +3,5 @@
 *.d
 *.gb
 main
+build/
+.vscode/
