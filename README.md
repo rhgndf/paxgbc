@@ -1,3 +1,16 @@
+# GBC Ported to PAX S920
+
+## Building
+Running `./docker-build.sh` will produce a file `build/libpaxgbc.so`
+
+## Running
+
+To use it, push the emulator and then the rom
+```
+python3 prolin-xcb-client/client.py ACM0 push libpaxgbc-noaudio.so /data/app/MAINAPP/lib/libosal.so
+python3 prolin-xcb-client/client.py ACM0 push rom.gbc /data/app/MAINAPP/lib/rom.gbc
+```
+
 # GBC
 
 A simple GameBoy and GameBoy Color emulator written in C.
