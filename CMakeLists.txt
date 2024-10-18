@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 
 set(CMAKE_C_COMPILER arm-linux-gnueabi-gcc)
 set(CMAKE_CXX_COMPILER arm-linux-gnueabi-g++)
+set(CMAKE_CXX_STANDARD 20)
 
 project(paxgbc)
 
@@ -13,6 +14,16 @@ FetchContent_Declare(
     GIT_TAG main
 )
 FetchContent_MakeAvailable(libpax)
+
+# Add the fbg library as a dependency
+FetchContent_Declare(
+    fbg
+    GIT_REPOSITORY https://github.com/rhgndf/fbg.git
+    GIT_TAG paxs920
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ""
+)
+FetchContent_MakeAvailable(fbg)
 
 # Create the shared library target
 add_library(paxgbc SHARED
@@ -26,13 +37,23 @@ add_library(paxgbc SHARED
     audio.c
     fileio.c
     debugger-dummy.c
+
+    ${fbg_SOURCE_DIR}/src/fbgraphics.c
+    ${fbg_SOURCE_DIR}/src/lodepng/lodepng.c
+    ${fbg_SOURCE_DIR}/src/nanojpeg/nanojpeg.c
+    ${fbg_SOURCE_DIR}/custom_backend/fbdev/fbg_fbdev.c
 )
+
+target_include_directories(paxgbc PRIVATE
+    ${fbg_SOURCE_DIR}/src
+    ${fbg_SOURCE_DIR}/custom_backend/fbdev
+    )
 
 # Set the optimization level
 target_compile_options(paxgbc PRIVATE -O3 -Wall -Wextra -flto)
 
 # Set the link options
-target_link_options(paxgbc PRIVATE -static-libstdc++ -static-libgcc)
+target_link_options(paxgbc PRIVATE -static-libstdc++ -static-libgcc -flto)
 
 # Link against the libpax library
 target_link_libraries(paxgbc PRIVATE libpax)
